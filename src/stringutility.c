@@ -2,7 +2,6 @@
 #include <string.h>
 
 #include "contorno.h"
-#include "symbolvisibility.h"
 
 CONTORNO_EXPORT char* Contorno_StringUtility_Strrstr(char* string, char* needle) {
 	char *tmp;

@@ -3,7 +3,6 @@
 #include <dlfcn.h>
 
 #include "contorno.h"
-#include "symbolvisibility.h"
 
 CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags) {
 	ContornoModule* ret;

@@ -1,6 +1,8 @@
 #ifndef CONTORNO
 #define CONTORNO
 
+#define CONTORNO_EXPORT __attribute__((visibility("default")))
+
 /* Types */
 typedef size_t ContornoSize;
 typedef ssize_t ContornoSSize;

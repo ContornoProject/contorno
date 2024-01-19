@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include "contorno.h"
-#include "symbolvisibility.h"
 
 void DefaultErrorHandler(ContornoSize size) {
 	printf("Failed to allocate %u bytes of memory, exiting.\n", (unsigned int)size);
