@@ -35,7 +35,7 @@ endef
 # EXAMPLES
 EXAMPLES_SOURCES = $(wildcard examples/*.c)
 EXAMPLES = $(basename $(EXAMPLES_SOURCES))
-EXAMPLE_CFLAGS = -g
+EXAMPLE_CFLAGS = -g $(shell $(PKGCONFIG) --cflags $(NAME))
 EXAMPLE_LIBS = $(shell $(PKGCONFIG) --libs $(NAME))
 
 # RULES
