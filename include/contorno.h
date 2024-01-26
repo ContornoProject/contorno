@@ -39,8 +39,6 @@ extern void* Contorno_MemoryManager_Realloc(ContornoMemoryManager* manager, void
 extern void Contorno_MemoryManager_Free(ContornoMemoryManager* manager, void* allocation);
 
 /* String Utilities */
-extern char* Contorno_StringUtility_Strrstr(char* string, char* needle);
-extern char* Contorno_StringUtility_Strnfill(ContornoSize size, char filler);
 extern ContornoBool Contorno_StringUtility_StartsWith(char* string, char* prefix);
 extern ContornoBool Contorno_StringUtility_EndsWith(char* string, char* suffix);
 
@@ -62,5 +60,30 @@ extern void Contorno_Module_Close(ContornoModule* module);
 
 /* Character Set Conversions */
 /* extern char* Contorno_Convert(char* input, ContornoSize input_length, char* input_codeset, char* output_codeset, ContornoSize* bytes_read, ContornoSize* bytes_written); */
+
+/* Object System */
+typedef void (*ContornoRefCountableFree)(void*);
+typedef struct {
+	ContornoRefCountableFree ref_free_func;
+    unsigned int ref_count;
+} ContornoRefCountable;
+
+typedef struct {
+	/* public */
+	ContornoRefCountable;
+    char *object_type;
+    char **object_implements;
+    
+    /* padding */
+    void *pad_1;
+    void *pad_2;
+    void *pad_3;
+} ContornoObject;
+
+extern void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
+extern void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
+
+extern ContornoObject* Contorno_Object_Create(char* type);	
+
 
 #endif

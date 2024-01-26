@@ -1,7 +1,7 @@
 # COMPILER OPTIONS
 CC ?= cc
 PKGCONFIG = $(shell which pkg-config)
-CFLAGS = -g -fvisibility=hidden -fPIC -shared -Iinclude
+CFLAGS = -fms-extensions -g -fvisibility=hidden -fPIC -shared -Iinclude
 LIBS = -ldl
 
 # FILE AND PROJECT NAMES
