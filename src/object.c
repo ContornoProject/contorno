@@ -55,6 +55,10 @@ CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type) {
 	ContornoObject* ret;
 	
 	ret = Contorno_MemoryManager_Malloc(NULL, sizeof(ContornoObject));
+	if (!ret) {
+		return NULL;
+	}
+	
 	memset(ret, 0, sizeof(ContornoObject));
 	
 	ret->object_type = strdup(type);
