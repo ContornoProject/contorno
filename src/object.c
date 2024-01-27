@@ -21,6 +21,13 @@ CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcounta
 	}
 }
 
+CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFree func) {
+	if (refcountable && func) {
+		refcountable->ref_free_func = func;
+	}	
+}
+
+
 void FreeObject(void* obj) {
 	ContornoObject* object;
 	
