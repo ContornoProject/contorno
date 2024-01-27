@@ -109,6 +109,7 @@ typedef struct {
 
 extern CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
 extern CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
+extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable);
 
 extern CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type);	
 
