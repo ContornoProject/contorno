@@ -63,6 +63,7 @@ CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type) {
 	
 	ret->object_type = strdup(type);
 	ret->ref_free_func = FreeObject;
+	ret->ref_count = 1;
 	
 	return ret;
 }
