@@ -54,7 +54,7 @@ void FreeObject(void* obj) {
 CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type, ContornoSize size) {
 	ContornoObject* ret;
 	
-	ret = Contorno_MemoryManager_Malloc(NULL, size));
+	ret = Contorno_MemoryManager_Malloc(NULL, size);
 	if (!ret) {
 		return NULL;
 	}
