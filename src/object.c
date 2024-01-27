@@ -27,7 +27,6 @@ CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* ref
 	}	
 }
 
-
 void FreeObject(void* obj) {
 	ContornoObject* object;
 	
