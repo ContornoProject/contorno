@@ -1,7 +1,21 @@
 #ifndef CONTORNO
 #define CONTORNO
 
-#define CONTORNO_EXPORT __attribute__((visibility("default")))
+#if defined(_WIN32)
+    #include <Windows.h>
+    #include <basetsd.h>
+    
+    typedef SSIZE_T ssize_t;
+
+    #define CONTORNO_EXPORT __declspec(dllexport)
+#else
+    #define CONTORNO_EXPORT __attribute__((visibility("default")))
+#endif
+
+#if defined(_MSC_VER)
+    /* make MSVC shut up about strup and _strup */
+    #define _CRT_NONSTDC_NO_DEPRECATE
+#endif
 
 /* Types */
 typedef size_t ContornoSize;
@@ -30,8 +44,6 @@ typedef enum {
 	#define Contorno_Atomic_Decrement(a) InterlockedDecrement((a))
 #endif
 
-
-
 /* Memory Management */
 typedef void (*ContornoMemoryManagerErrorHandler)(ContornoSize);
 typedef void* (*ContornoMemoryManagerMalloc)(ContornoSize);
@@ -47,15 +59,15 @@ typedef struct {
 	ContornoMemoryManagerErrorHandler error_handler;
 } ContornoMemoryManager;
 
-extern void Contorno_MemoryManager_Init(ContornoMemoryManager* manager);
-extern void* Contorno_MemoryManager_Malloc(ContornoMemoryManager* manager, ContornoSize size);
-extern void* Contorno_MemoryManager_Calloc(ContornoMemoryManager* manager, ContornoSize count, ContornoSize size);
-extern void* Contorno_MemoryManager_Realloc(ContornoMemoryManager* manager, void* allocation, ContornoSize size);
-extern void Contorno_MemoryManager_Free(ContornoMemoryManager* manager, void* allocation);
+extern CONTORNO_EXPORT void Contorno_MemoryManager_Init(ContornoMemoryManager* manager);
+extern CONTORNO_EXPORT void* Contorno_MemoryManager_Malloc(ContornoMemoryManager* manager, ContornoSize size);
+extern CONTORNO_EXPORT void* Contorno_MemoryManager_Calloc(ContornoMemoryManager* manager, ContornoSize count, ContornoSize size);
+extern CONTORNO_EXPORT void* Contorno_MemoryManager_Realloc(ContornoMemoryManager* manager, void* allocation, ContornoSize size);
+extern CONTORNO_EXPORT void Contorno_MemoryManager_Free(ContornoMemoryManager* manager, void* allocation);
 
 /* String Utilities */
-extern ContornoBool Contorno_StringUtility_StartsWith(char* string, char* prefix);
-extern ContornoBool Contorno_StringUtility_EndsWith(char* string, char* suffix);
+extern CONTORNO_EXPORT ContornoBool Contorno_StringUtility_StartsWith(char* string, char* prefix);
+extern CONTORNO_EXPORT ContornoBool Contorno_StringUtility_EndsWith(char* string, char* suffix);
 
 /* Module Loader */
 typedef struct {
@@ -68,10 +80,10 @@ typedef enum {
     CONTORNO_MODULE_LOAD_BIND_LOCAL = 1 << 1
 } ContornoModuleLoadFlags;
 
-extern ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags);
-extern void* Contorno_Module_LoadSymbol(ContornoModule* module, char* name);
-extern char* Contorno_Module_GetFileName(ContornoModule* module);
-extern void Contorno_Module_Close(ContornoModule* module);
+extern CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags);
+extern CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* name);
+extern CONTORNO_EXPORT char* Contorno_Module_GetFileName(ContornoModule* module);
+extern CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module);
 
 /* Character Set Conversions */
 /* extern char* Contorno_Convert(char* input, ContornoSize input_length, char* input_codeset, char* output_codeset, ContornoSize* bytes_read, ContornoSize* bytes_written); */
@@ -95,10 +107,10 @@ typedef struct {
     void *pad_3;
 } ContornoObject;
 
-extern void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
-extern void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
+extern CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
+extern CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
 
-extern ContornoObject* Contorno_Object_Create(char* type);	
+extern CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type);	
 
 
 #endif

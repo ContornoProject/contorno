@@ -1,8 +1,38 @@
 #include <stdlib.h>
 #include <string.h>
-#include <dlfcn.h>
 
 #include "contorno.h"
+
+#if defined(_WIN32)
+#include <libloaderapi.h>
+
+/* todo: implement everything */
+CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags) {
+	ContornoModule* ret;
+	int dl_flags;
+
+	if (!file) { 
+		return NULL;
+	}
+
+	ret = Contorno_MemoryManager_Malloc(NULL, sizeof(ContornoModule));
+	if (!ret) {
+		return NULL;
+	}
+
+	/* what the fuck am I doing */
+	ret->file = strdup(file);
+
+	ret->module = LoadLibrary(file);
+	return ret;
+} 
+
+CONTORNO_EXPORT char* Contorno_Module_GetFileName(ContornoModule* module) {}
+CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module)  {}
+CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* name) {}
+
+#else
+#include <dlfcn.h>
 
 CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags) {
 	ContornoModule* ret;
@@ -81,7 +111,4 @@ CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* n
     
     return ret;
 }
-
-
-
-
+#endif
