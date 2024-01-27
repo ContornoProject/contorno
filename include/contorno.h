@@ -106,7 +106,7 @@ extern CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refc
 extern CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
 extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFree func);
 
-extern CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type);	
+extern CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type, ContornoSize size);	
 
 
 #endif
