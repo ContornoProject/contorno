@@ -5,13 +5,13 @@
 
 CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable) {
 	if (refcountable) {
-		__sync_add_and_fetch(&refcountable->ref_count, 1);		
+		Contorno_Atomic_Increment(&refcountable->ref_count);		
 	}
 }
 
 CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable) {
 	if (refcountable) {
-		if (!__sync_sub_and_fetch(&refcountable->ref_count, 1)) {
+		if (!Contorno_Atomic_Decrement(&refcountable->ref_count)) {
 			if (refcountable->ref_free_func) {
 				refcountable->ref_free_func(refcountable);
 			} else {

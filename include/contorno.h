@@ -17,6 +17,21 @@ typedef enum {
     CONFLIENT_TRUE
 } ContornoBool;
 
+/* Atomics */
+#ifdef __GNUC__
+	#define Contorno_Atomic_Increment(a) __sync_add_and_fetch((a), 1)
+#elif defined (_WIN32)
+	#define Contorno_Atomic_Increment(a) InterlockedIncrement((a))
+#endif
+
+#ifdef __GNUC__
+	#define Contorno_Atomic_Decrement(a) __sync_sub_and_fetch((a), 1)
+#elif defined (_WIN32)
+	#define Contorno_Atomic_Decrement(a) InterlockedDecrement((a))
+#endif
+
+
+
 /* Memory Management */
 typedef void (*ContornoMemoryManagerErrorHandler)(ContornoSize);
 typedef void* (*ContornoMemoryManagerMalloc)(ContornoSize);
