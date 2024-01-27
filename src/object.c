@@ -24,6 +24,7 @@ CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcounta
 void FreeObject(void* obj) {
 	ContornoObject* object;
 	
+	object = (ContornoObject*)obj;
 	if (object) {
 		if (object->object_type) {
 			free(object->object_type);
