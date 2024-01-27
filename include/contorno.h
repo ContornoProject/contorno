@@ -97,13 +97,14 @@ typedef struct {
     char **object_implements;
     
     /* padding */
-    void *pad_1;
-    void *pad_2;
-    void *pad_3;
+    void *object_pad_1;
+    void *object_pad_2;
+    void *object_pad_3;
 } ContornoObject;
 
 extern CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
 extern CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
+extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFree func);
 
 extern CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type);	
 
