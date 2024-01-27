@@ -2,10 +2,6 @@
 
 #include "contorno.h"
 
-#if defined(_MSC_VER)
-#include <windows.h>
-#endif
-
 #if defined(_WIN32) 
 BOOL WINAPI DLLMain(HMODULE hModule, DWORD ul_reason_to_call, LPVOID lpReserved) {
     switch (ul_reason_to_call) {

@@ -18,9 +18,9 @@ CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleL
 		return NULL;
 	}
 
-	/* what the fuck am I doing */
-	ret->file = strdup(file);
+	ret->file = _strdup(file);
 	ret->module = LoadLibrary(file);
+	
 	return ret;
 } 
 
@@ -32,8 +32,8 @@ CONTORNO_EXPORT char* Contorno_Module_GetFileName(ContornoModule* module) {
 	if (!module->file) {
 		return NULL;
 	}
-		
-	return strdup(module->file);
+
+	return _strdup(module->file);
 }
 
 CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module) {

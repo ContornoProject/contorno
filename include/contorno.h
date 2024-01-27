@@ -2,7 +2,7 @@
 #define CONTORNO
 
 #if defined(_WIN32)
-    #include <Windows.h>
+    #include <windows.h>
     #include <basetsd.h>
     
     typedef SSIZE_T ssize_t;
@@ -10,11 +10,6 @@
     #define CONTORNO_EXPORT __declspec(dllexport)
 #else
     #define CONTORNO_EXPORT __attribute__((visibility("default")))
-#endif
-
-#if defined(_MSC_VER)
-    /* make MSVC shut up about strup and _strup */
-    #define _CRT_NONSTDC_NO_DEPRECATE
 #endif
 
 /* Types */
