@@ -4,18 +4,10 @@
 #include "contorno.h"
 
 CONTORNO_EXPORT ContornoBool Contorno_StringUtility_StartsWith(char* string, char* prefix) {
-	if (!string || !prefix) {
-		if (string == prefix) {
-			return CONFLIENT_TRUE;		
-		} else {
-			return CONFLIENT_FALSE;			
-		}
-	}
-	
 	if(!strncmp(string, prefix, strlen(prefix))) {
-		return CONFLIENT_TRUE;
+		return CONTORNO_TRUE;
 	} else {
-		return CONFLIENT_FALSE;
+		return CONTORNO_FALSE;
 	}
 }
 
@@ -23,22 +15,26 @@ CONTORNO_EXPORT ContornoBool Contorno_StringUtility_EndsWith(char* string, char*
 	ContornoSize string_length;
 	ContornoSize suffix_length;
 	
-	if (!string || !suffix) {
-		if (string == suffix) {
-			return CONFLIENT_TRUE;		
-		} else {
-			return CONFLIENT_FALSE;			
-		}
-	}
-		
 	string_length = strlen(string);
 	suffix_length =	strlen(suffix);
 	
 	if ((string_length >= suffix_length) && (!strcmp(string + (string_length-suffix_length), suffix))) {
-		return CONFLIENT_TRUE;
+		return CONTORNO_TRUE;
 	} else {
-		return CONFLIENT_FALSE;
+		return CONTORNO_FALSE;
 	}
 }
+
+CONTORNO_EXPORT char *Contorno_StringUtility_Strdup(ContornoMemoryManager* manager, char *string) {
+	char *ret;
+	
+	ret = Contorno_MemoryManager_Malloc(manager, strlen(string) + 1);
+	if (ret) {
+		strcpy(ret, string);
+ 	}
+	
+	return ret;
+}
+
 
 

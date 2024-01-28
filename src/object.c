@@ -21,7 +21,7 @@ CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcounta
 	}
 }
 
-CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFree func) {
+CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFreeFunc func) {
 	if (refcountable && func) {
 		refcountable->ref_free_func = func;
 	}	
@@ -41,7 +41,7 @@ void FreeObject(void* obj) {
 			
 			i = 0;
 			while (object->object_implements[i]) {
-				free(object->object_implements[i]);
+				Contorno_MemoryManager_Free(NULL, object->object_implements[i]);
 				i++;
 			}
 			Contorno_MemoryManager_Free(NULL, object->object_implements);
@@ -51,19 +51,28 @@ void FreeObject(void* obj) {
 	}
 }
 
-CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type, ContornoSize size) {
-	ContornoObject* ret;
-	
-	ret = Contorno_MemoryManager_Malloc(NULL, size);
-	if (!ret) {
-		return NULL;
+CONTORNO_EXPORT void Contorno_Object_Fill(ContornoObject* object, char* type, ContornoRefCountableFreeFunc* fillers, ContornoBool dont_fill) {
+	int i;
+	if (!object || !type || !fillers) {
+		return;
 	}
 	
-	memset(ret, 0, sizeof(ContornoObject));
+	i = 0;
+	while (fillers[i]) {
+		i++;
+	}
 	
-	ret->object_type = strdup(type);
-	ret->ref_free_func = FreeObject;
-	ret->ref_count = 1;
+	object->object_implements = NULL;
+	object->object_type = Contorno_StringUtility_Strdup(NULL, type);
+	object->object_fillers = Contorno_MemoryManager_Memdup(NULL, fillers, sizeof(ContornoRefCountableFreeFunc)*i);
+	object->ref_free_func = FreeObject;
+	object->ref_count = 1;
 	
-	return ret;
+	if (!dont_fill) {
+		i = 0;
+		while (object->object_fillers[i]) {
+			object->object_fillers[i](object);
+			i++;
+		}		
+	}
 }

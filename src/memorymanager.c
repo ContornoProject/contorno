@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "contorno.h"
 
@@ -82,4 +83,17 @@ CONTORNO_EXPORT void Contorno_MemoryManager_Free(ContornoMemoryManager* manager,
 	} else {
 		free(allocation);
 	}
+}
+
+
+CONTORNO_EXPORT void* Contorno_MemoryManager_Memdup(ContornoMemoryManager* manager, void* data, ContornoSize size) { 
+	void* allocation;
+   
+	allocation = Contorno_MemoryManager_Malloc(manager, size);
+	if (!allocation) {
+		return NULL;
+	}
+	
+	memcpy(allocation, data, size);
+	return allocation;
 }

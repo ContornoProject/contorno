@@ -18,7 +18,7 @@ CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleL
 		return NULL;
 	}
 
-	ret->file = _strdup(file);
+	ret->file = Contorno_StringUtility_Strdup(NULL, file);
 	ret->module = LoadLibrary(file);
 	
 	return ret;
@@ -33,7 +33,7 @@ CONTORNO_EXPORT char* Contorno_Module_GetFileName(ContornoModule* module) {
 		return NULL;
 	}
 
-	return _strdup(module->file);
+	return  Contorno_StringUtility_Strdup(NULL, module->file);
 }
 
 CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module) {
@@ -46,7 +46,7 @@ CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module) {
 	}	
 
 	if (module->file) {
-		free(module->file);
+		Contorno_MemoryManager_Free(NULL, module->file);
 	}		
 	
 	free(module);	
@@ -75,7 +75,7 @@ CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleL
 	if (!ret) {
 		return NULL;
 	}
-	ret->file = strdup(file);
+	ret->file = Contorno_StringUtility_Strdup(NULL, file);
 	
 	dl_flags = 0;
 	if (flags & CONTORNO_MODULE_LOAD_BIND_LAZY) {
@@ -100,7 +100,7 @@ CONTORNO_EXPORT char* Contorno_Module_GetFileName(ContornoModule* module) {
 		return NULL;
 	}
 		
-	return strdup(module->file);
+	return Contorno_StringUtility_Strdup(NULL, module->file);
 }
 
 
@@ -114,7 +114,7 @@ CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module)  {
 	}	
 
 	if (module->file) {
-		free(module->file);
+		Contorno_MemoryManager_Free(NULL, module->file);
 	}		
 	
 	free(module);

@@ -22,8 +22,8 @@ typedef signed short ContornoInt16;
 typedef unsigned long ContornoUInt32;
 typedef signed long ContornoInt32;
 typedef enum {
-    CONFLIENT_FALSE,
-    CONFLIENT_TRUE
+    CONTORNO_FALSE,
+    CONTORNO_TRUE
 } ContornoBool;
 
 /* Atomics */
@@ -59,10 +59,12 @@ extern CONTORNO_EXPORT void* Contorno_MemoryManager_Malloc(ContornoMemoryManager
 extern CONTORNO_EXPORT void* Contorno_MemoryManager_Calloc(ContornoMemoryManager* manager, ContornoSize count, ContornoSize size);
 extern CONTORNO_EXPORT void* Contorno_MemoryManager_Realloc(ContornoMemoryManager* manager, void* allocation, ContornoSize size);
 extern CONTORNO_EXPORT void Contorno_MemoryManager_Free(ContornoMemoryManager* manager, void* allocation);
+extern CONTORNO_EXPORT void* Contorno_MemoryManager_Memdup(ContornoMemoryManager* manager, void* data, ContornoSize size);
 
 /* String Utilities */
 extern CONTORNO_EXPORT ContornoBool Contorno_StringUtility_StartsWith(char* string, char* prefix);
 extern CONTORNO_EXPORT ContornoBool Contorno_StringUtility_EndsWith(char* string, char* suffix);
+extern CONTORNO_EXPORT char *Contorno_StringUtility_Strdup(ContornoMemoryManager* manager, char *string);
 
 /* Module Loader */
 typedef struct {
@@ -84,17 +86,19 @@ extern CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module);
 /* extern char* Contorno_Convert(char* input, ContornoSize input_length, char* input_codeset, char* output_codeset, ContornoSize* bytes_read, ContornoSize* bytes_written); */
 
 /* Object System */
-typedef void (*ContornoRefCountableFree)(void*);
+typedef void (*ContornoRefCountableFreeFunc)(void*);
 typedef struct {
-	ContornoRefCountableFree ref_free_func;
+	ContornoRefCountableFreeFunc ref_free_func;
     unsigned int ref_count;
 } ContornoRefCountable;
 
+typedef void (*ContornoObjectFillFunc)(void*);
 typedef struct {
 	/* public */
 	ContornoRefCountable;
     char *object_type;
     char **object_implements;
+    ContornoObjectFillFunc* object_fillers;
     
     /* padding */
     void *object_pad_1;
@@ -104,9 +108,9 @@ typedef struct {
 
 extern CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
 extern CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
-extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFree func);
+extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFreeFunc func);
 
-extern CONTORNO_EXPORT ContornoObject* Contorno_Object_Create(char* type, ContornoSize size);	
+extern CONTORNO_EXPORT void Contorno_Object_Fill(ContornoObject* object, char* type, ContornoRefCountableFreeFunc* fillers, ContornoBool dont_fill);
 
 
 #endif
