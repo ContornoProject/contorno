@@ -8,8 +8,10 @@
     typedef SSIZE_T ssize_t;
 
     #define CONTORNO_EXPORT __declspec(dllexport)
+    #define CONTORNO_PATH_SEPERATOR "\\"
 #else
     #define CONTORNO_EXPORT __attribute__((visibility("default")))
+    #define CONTORNO_PATH_SEPERATOR "/"
 #endif
 
 /* Types */
