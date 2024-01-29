@@ -1,7 +1,6 @@
 #ifndef _WIN32
-	#define _GNU_SOURCE
+#define _GNU_SOURCE
 #endif
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -62,6 +61,17 @@ CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* n
 	}
 
     return GetProcAddress((HMODULE)module->module, name);
+}
+
+CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath(void* func) {
+	char* filename;
+	HMODULE cmodule;
+
+	filename = Contorno_MemoryManager_Calloc(NULL, MAX_PATH, sizeof(char));
+	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |  GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)func, &cmodule)
+	GetModuleFileName(cmodule, filename, sizeof(filename))
+	
+    return filename;
 }
 
 #else
@@ -125,10 +135,10 @@ CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module)  {
 	free(module);
 }
 
-CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath() {
+CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath(void* func) {
     Dl_info info;
     
-    dladdr(Contorno_Module_GetCurrentPath, &info);
+    dladdr(func, &info);
     
     return Contorno_StringUtility_Strdup(NULL, (char*)info.dli_fname);
 }

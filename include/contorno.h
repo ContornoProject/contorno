@@ -82,8 +82,8 @@ typedef enum {
 extern CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags);
 extern CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* name);
 extern CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module);
+extern CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath(void* func);
 
-extern CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath();
 /* Character Set Conversions */
 /* extern char* Contorno_Convert(char* input, ContornoSize input_length, char* input_codeset, char* output_codeset, ContornoSize* bytes_read, ContornoSize* bytes_written); */
 
@@ -111,8 +111,9 @@ typedef struct {
 extern CONTORNO_EXPORT void Contorno_RefCountable_Ref(ContornoRefCountable* refcountable);
 extern CONTORNO_EXPORT void Contorno_RefCountable_Unref(ContornoRefCountable* refcountable);
 extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountable* refcountable, ContornoRefCountableFreeFunc func);
-
 extern CONTORNO_EXPORT void Contorno_Object_Fill(ContornoObject* object, char* type, ContornoRefCountableFreeFunc* fillers, ContornoBool dont_fill);
 
+/* File Utilities */
+extern CONTORNO_EXPORT char* Contorno_FileUtility_Basename(char* file);
 
 #endif
