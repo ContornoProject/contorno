@@ -114,6 +114,6 @@ extern CONTORNO_EXPORT void Contorno_RefCountable_SetFreeFunc(ContornoRefCountab
 extern CONTORNO_EXPORT void Contorno_Object_Fill(ContornoObject* object, char* type, ContornoRefCountableFreeFunc* fillers, ContornoBool dont_fill);
 
 /* File Utilities */
-extern CONTORNO_EXPORT char* Contorno_FileUtility_Basename(char* file);
+extern CONTORNO_EXPORT char* Contorno_FileUtility_Dirname(char* file);
 
 #endif
