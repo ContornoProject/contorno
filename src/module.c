@@ -1,3 +1,7 @@
+#ifndef _WIN32
+	#define _GNU_SOURCE
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -61,6 +65,7 @@ CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* n
 }
 
 #else
+
 #include <dlfcn.h>
 
 CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags) {
@@ -120,24 +125,12 @@ CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module)  {
 	free(module);
 }
 
-CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* name) {
-	char* error;
-	void* ret;
-
-	if (!module) {
-		return NULL;
-	}
-	
-	if (!module->module) {
-		return NULL;
-	}	
-	
-	ret = dlsym(module->module, name);
-	error = dlerror();
-    if (error) {
-        return NULL;
-    }
+CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath() {
+    Dl_info info;
     
-    return ret;
+    dladdr(Contorno_Module_GetCurrentPath, &info);
+    
+    return Contorno_StringUtility_Strdup(NULL, (char*)info.dli_fname);
 }
+
 #endif

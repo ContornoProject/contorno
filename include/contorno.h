@@ -8,10 +8,10 @@
     typedef SSIZE_T ssize_t;
 
     #define CONTORNO_EXPORT __declspec(dllexport)
-    #define CONTORNO PATH_SEPARATOR "\\"
+    #define CONTORNO_PATH_SEPARATOR "\\"
 #else
     #define CONTORNO_EXPORT __attribute__((visibility("default")))
-    #define CONTORNO PATH_SEPARATOR "/"
+    #define CONTORNO_PATH_SEPARATOR "/"
 #endif
 
 /* Types */
@@ -81,9 +81,9 @@ typedef enum {
 
 extern CONTORNO_EXPORT ContornoModule* Contorno_Module_Open(char* file, ContornoModuleLoadFlags flags);
 extern CONTORNO_EXPORT void* Contorno_Module_LoadSymbol(ContornoModule* module, char* name);
-extern CONTORNO_EXPORT char* Contorno_Module_GetFileName(ContornoModule* module);
 extern CONTORNO_EXPORT void Contorno_Module_Close(ContornoModule* module);
 
+extern CONTORNO_EXPORT char* Contorno_Module_GetCurrentPath();
 /* Character Set Conversions */
 /* extern char* Contorno_Convert(char* input, ContornoSize input_length, char* input_codeset, char* output_codeset, ContornoSize* bytes_read, ContornoSize* bytes_written); */
 
