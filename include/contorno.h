@@ -115,5 +115,6 @@ extern CONTORNO_EXPORT void Contorno_Object_Fill(ContornoObject* object, char* t
 
 /* File Utilities */
 extern CONTORNO_EXPORT char* Contorno_FileUtility_Dirname(char* file);
+extern CONTORNO_EXPORT char* Contorno_FileUtility_Getcwd();
 
 #endif
